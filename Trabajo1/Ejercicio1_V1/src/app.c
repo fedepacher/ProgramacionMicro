@@ -8,8 +8,11 @@
 
 #include "app.h"         // <= Su propia cabecera
 #include "sapi.h"        // <= Biblioteca sAPI
+#include "board_ext.h"
+#include "key.h"
 
-#define DUTY_CICLE 500
+
+#define DUTY_CICLE 200
 
 /*=====[Encabezados de funciones]=============================================*/
 void Prender_Leds(uint8_t led);
@@ -29,27 +32,56 @@ int main( void )
 
    // Inicializar y configurar la plataforma
    boardConfig();
-   uint16_t duty_cicle = 0;		//variable que almacena el tiempo apagado/perndido de los leds
+
+   key_init();		//inicializacion del arreglo contenedor de los pulsadores a FALSE, es decir, no pulsados
+
+   /*uint16_t duty_cicle = 0;		//variable que almacena el tiempo apagado/perndido de los leds
    bool_t estado_led = FALSE;	//variable que indica el estado del led TRUE = prender, FALSE = apagar
-   uint8_t led_activo = 0;
+   int8_t led_activo = 0;
+   bool_t sentido_giro = 1;		//indica el sentido de giro de los leds; 0 = L3 -> L2 -> L1
+   */
    // ---------- REPETIR POR SIEMPRE --------------------------
    while( TRUE ) {
 
-	   duty_cicle++;
+	   key_periodicTask1ms();		//chequeo por pooling si un pulsador fue presionado
+
+	   if(key_getPressEv(BOARD_SW_ID_1))
+		   board_setLed(BOARD_LED_ID_1, BOARD_LED_MSG_TOGGLE);
+
+
+	   if(key_getPressEv(BOARD_SW_ID_2))
+	  		   board_setLed(BOARD_LED_ID_2, BOARD_LED_MSG_TOGGLE);
+
+	   if(key_getPressEv(BOARD_SW_ID_3))
+	  	  		   board_setLed(BOARD_LED_ID_3, BOARD_LED_MSG_TOGGLE);
+
+	   /*duty_cicle++;
 
 	   if(duty_cicle >= DUTY_CICLE){
 		   duty_cicle = 0;
 		   if (estado_led){
 			   Prender_Leds(led_activo);
+			   if(sentido_giro == 0){
+				   led_activo++;
+			   }
+			   else{
+				   led_activo--;
+			   }
 		   }
 		   else{
 			   Apagar_Leds();
 		   }
-		   led_activo++;
-		   if(led_activo >= cantidad_leds)
+
+		   if(led_activo >= cantidad_leds){
 			   led_activo = 0;
+		   }
+		   else{
+			   if(led_activo <0)
+				   led_activo = cantidad_leds;
+		   }
+
 		   estado_led = !estado_led;
-	   }
+	   }*/
 
 	   delay(1);
 

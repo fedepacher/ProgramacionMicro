@@ -48,7 +48,7 @@ bool key_getPressEv(board_sw_id_enum id)
 
     if (eventSW[id])
     {
-        eventSW[id] = 0;
+        //eventSW[id] = 0;
         ret = TRUE;
     }
 
@@ -74,6 +74,7 @@ void key_periodicTask1ms(void)
             case ESPERANDO_DESACTIVACION:
                 if (!board_getSw(i))
                 {
+                	eventSW[i] = 0;
                     estSW[i] = ESPERANDO_ACTIVACION;
                 }
                 break;

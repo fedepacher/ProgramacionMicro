@@ -7,6 +7,7 @@
 
 #include "semaforo.h"
 #include "sapi.h"
+#include "key.h"
 
 /*=====[Inclusions of private function dependencies]=========================*/
 
@@ -40,7 +41,7 @@ static void semaphore_normal(semaphore_t * sem);
 static void semaphore_offline(semaphore_t * sem);	//pasa a modo desconectado prendiendo led amarillo cada 500 mseg
 static void semaphore_alarm(semaphore_t * sem);	//pasa a modo alarma prendiendo led rojo y amarillo cada 1 seg
 static void semaphore_off();	//apaga todos los leds
-static void semaphore_init(semaphore_t * sem);
+static void semaphore_init(semaphore_t * sem);	//inicializa a estado normal la estructura de semaforo
 
 bool_t semaphoreInit(semaphore_t * pSemaphore) {
 	//TODO: chequeo de consistencia del puntero
@@ -53,7 +54,7 @@ bool_t semaphoreInit(semaphore_t * pSemaphore) {
 	if (NULL == pSemaphore)
 		return result;
 
-
+	key_init();
 
 	delayInit(&delay_red, TIME_ON_RED);
 	delayInit(&delay_yellow, TIME_ON_YELLOW);
@@ -81,14 +82,16 @@ bool_t semaphore_control(semaphore_t * pSemaphore) {
 		return FALSE;
 
 	//TODO: chequear teclas TEC1,TEC2, TEC3
-	if (!gpioRead(TEC1)) {
+	key_periodicTask1ms();//chequeo por pooling si un pulsador fue presionado
+
+	if (key_getPressEv(BOARD_SW_ID_1)) {
 		semaphore_init(pSemaphore);
 		semaphore_off();
-	} else if (!gpioRead(TEC2)) {
+	} else if (key_getPressEv(BOARD_SW_ID_2)) {
 		pSemaphore->mode = OFFLINE;
 		pSemaphore->delay = delay_offline;
 		semaphore_off();
-	} else if (!gpioRead(TEC3)) {
+	} else if (key_getPressEv(BOARD_SW_ID_3)) {
 		pSemaphore->mode = ALARM;
 		pSemaphore->delay = delay_alarm;
 		semaphore_off();

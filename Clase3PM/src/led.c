@@ -33,7 +33,12 @@ void turnOff(lamp_t lamp){
 }
 
 void blink(lamp_t lamp, tick_t blinkTime){
-	gpioToggle(lamp);
+
+	/*static delay_t delay;
+	delayInit(&delay, blinkTime);
+
+	if(delayRead(&delay))*/
+		gpioToggle(lamp);
 }
 
 /*=====[Implementations of interrupt functions]==============================*/

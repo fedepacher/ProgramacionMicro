@@ -18,6 +18,8 @@
 #define TIME_ON_RED		3000
 #define TIME_ON_YELLOW	500
 #define TIME_ON_GREEN	1000
+#define TIME_OFFLINE	500
+#define	TIME_ALARM		1000
 
 /*=====[Private function-like macros]========================================*/
 
@@ -29,14 +31,15 @@
 delay_t delay_red;
 delay_t delay_yellow;
 delay_t delay_green;
+delay_t delay_alarm;
+delay_t delay_offline;
 
 
 /*=====[Definitions of private global variables]=============================*/
 static void semaphore_normal(semaphore_t * sem);
-static void semaphore_offline(semaphore_t * sem);
-static void semaphore_alarm(semaphore_t * sem);
-
-
+static void semaphore_offline(semaphore_t * sem);	//pasa a modo desconectado prendiendo led amarillo cada 500 mseg
+static void semaphore_alarm(semaphore_t * sem);	//pasa a modo alarma prendiendo led rojo y amarillo cada 1 seg
+static void semaphore_off();	//apaga todos los leds
 
 bool_t semaphoreInit(semaphore_t * pSemaphore) {
 	//TODO: chequeo de consistencia del puntero
@@ -55,8 +58,8 @@ bool_t semaphoreInit(semaphore_t * pSemaphore) {
 	delayInit(&delay_red, TIME_ON_RED);
 	delayInit(&delay_yellow, TIME_ON_YELLOW);
 	delayInit(&delay_green, TIME_ON_GREEN);
-
-
+	delayInit(&delay_offline, TIME_OFFLINE);
+	delayInit(&delay_alarm, TIME_ALARM);
 
 	result = TRUE;
 
@@ -69,12 +72,16 @@ bool_t semaphore_control(semaphore_t * pSemaphore) {
 		return FALSE;
 
 	//TODO: chequear teclas TEC1,TEC2, TEC3
-	if (!gpioRead(TEC1))
+	if (!gpioRead(TEC1)) {
 		pSemaphore->mode = NORMAL;
-	else if (!gpioRead(TEC2))
+		semaphore_off();
+	} else if (!gpioRead(TEC2)) {
 		pSemaphore->mode = OFFLINE;
-	else if (!gpioRead(TEC3))
+		semaphore_off();
+	} else if (!gpioRead(TEC3)) {
 		pSemaphore->mode = ALARM;
+		semaphore_off();
+	}
 
 	//TODO: ejecutar funcion de modo normal, offline, alarm
 	switch (pSemaphore->mode) {
@@ -140,11 +147,20 @@ static void semaphore_normal(semaphore_t * sem) {
 
 static void semaphore_offline(semaphore_t * sem) {
 
-	blink(LED_YELLOW_S, TIME_ON_YELLOW);
+	if (delayRead(&delay_offline))
+		blink(LED_YELLOW_S, TIME_ON_YELLOW);
 }
 
 static void semaphore_alarm(semaphore_t * sem) {
-	blink(LED_YELLOW_S, TIME_ON_YELLOW);
-	blink(LED_RED_S, TIME_ON_YELLOW);
+	if (delayRead(&delay_alarm)) {
+		blink(LED_YELLOW_S, TIME_ON_YELLOW);
+		blink(LED_RED_S, TIME_ON_YELLOW);
+	}
+}
+
+static void semaphore_off() {
+	turnOff(LED_RED_S);
+	turnOff(LED_YELLOW_S);
+	turnOff(LED_GREEN_S);
 }
 

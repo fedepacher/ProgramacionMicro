@@ -25,10 +25,27 @@ typedef gpioMap_t lamp_t;
 /*=====[Prototypes (declarations) of private functions]======================*/
 
 /*=====[Implementations of public functions]=================================*/
+/**	"brief 	Funcion que enciende el correspondiente led
+ *
+ * 	@param[in]	lamp	led a encender
+ *
+ */
 void turnOn(lamp_t lamp);
+
+/**	"brief 	Funcion que apaga el correspondiente led
+ *
+ * 	@param[in]	lamp	led a apagar
+ *
+ */
 void turnOff(lamp_t lamp);
 
-
+/**	"brief 	Funcion que enciende y apaga el correspondiente led
+ *
+ * 	@param[in]	lamp	led a encender/apagar
+ *
+ * 	@param[in]	blinkTime	tiempo a encender/apagar
+ *
+ */
 void blink(lamp_t lamp, tick_t blinkTime);
 /*=====[Implementations of interrupt functions]==============================*/
 

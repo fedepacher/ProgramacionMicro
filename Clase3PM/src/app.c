@@ -50,6 +50,8 @@ int main(void) {
 	while ( TRUE) {
 
 		//chequear teclas
+
+		//control del semaforo
 		semaphore_control(&sem1);
 	}
 

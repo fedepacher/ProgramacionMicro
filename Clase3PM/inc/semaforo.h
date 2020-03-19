@@ -32,21 +32,18 @@ extern "C" {
 
 /*=====[Definitions of public global variables]==============================*/
 typedef enum{
-	NORMAL = 0,
+	NORMAL = 0,		//modo de funcionamiento del semaforo
 	OFFLINE,
 	ALARM
 } sema_mode_t;
 
-typedef enum{
-	RED_S,
-	YELLOW_S,
-	GREEN_S
-} sema_state_t;
 
 typedef enum{
-	SEM_1,
-	TOTAL_SEM
-} sema_amount_t;
+	RED_S,			//estado semaforo en rojo
+	YELLOW_S,		//estado semaforo en amarillo
+	GREEN_S			//estado semaforo en verde
+} sema_state_t;
+
 
 typedef struct{
 	sema_mode_t mode;	//modo actual
@@ -61,8 +58,18 @@ typedef struct{
 /*=====[Prototypes (declarations) of private functions]======================*/
 
 /*=====[Implementations of public functions]=================================*/
+/**	"brief 	Funcion inicializa la estructura del semaforo
+ *
+ * 	@param[in]	pSemaphore		puntero a estructura que contiene al semaforo
+ *
+ */
 bool_t semaphoreInit(semaphore_t * pSemaphore);
 
+/**	"brief 	Funcion controladora del semaforo, indica su funcionamiento normal, offline o alarma
+ *
+ * 	@param[in]	pSemaphore		puntero a estructura que contiene al semaforo
+ *
+ */
 bool_t semaphore_control(semaphore_t * pSemaphore);
 
 /*=====[Implementations of interrupt functions]==============================*/

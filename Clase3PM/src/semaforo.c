@@ -34,7 +34,10 @@ delay_t delay_yellow;
 delay_t delay_green;
 delay_t delay_alarm;
 delay_t delay_offline;
-
+const char msj_inicial[] = "Inicio de semaforo\r\n";
+const char msj_normal[] = "Modo Normal\r\n";
+const char msj_alarma[] = "Modo Alarma\r\n";
+const char msj_offline[] = "Modo Offline\r\n";
 
 /*=====[Definitions of private global variables]=============================*/
 static void semaphore_normal(semaphore_t * sem);
@@ -64,6 +67,11 @@ bool_t semaphoreInit(semaphore_t * pSemaphore) {
 
 	semaphore_init(pSemaphore);
 
+	uartInit(UART_USB, 115200);
+
+	uartWriteString(UART_USB, msj_inicial);
+	uartWriteString(UART_USB, msj_normal);
+
 	result = TRUE;
 
 	return result;
@@ -87,14 +95,17 @@ bool_t semaphore_control(semaphore_t * pSemaphore) {
 	if (key_getPressEv(BOARD_SW_ID_1)) {
 		semaphore_init(pSemaphore);
 		semaphore_off();
+		uartWriteString(UART_USB, msj_normal);
 	} else if (key_getPressEv(BOARD_SW_ID_2)) {
 		pSemaphore->mode = OFFLINE;
 		pSemaphore->delay = delay_offline;
 		semaphore_off();
+		uartWriteString(UART_USB, msj_offline);
 	} else if (key_getPressEv(BOARD_SW_ID_3)) {
 		pSemaphore->mode = ALARM;
 		pSemaphore->delay = delay_alarm;
 		semaphore_off();
+		uartWriteString(UART_USB, msj_alarma);
 	}
 
 	//TODO: ejecutar funcion de modo normal, offline, alarm

@@ -29,14 +29,10 @@
 /*=====[Definitions of external public global variables]=====================*/
 
 /*=====[Definitions of public global variables]==============================*/
-delay_t delay_red;
-delay_t delay_yellow;
-delay_t delay_green;
-delay_t delay_alarm;
-delay_t delay_offline;
-buttom_ptr but1;
-buttom_ptr but2;
-buttom_ptr but3;
+
+button_ptr but1;
+button_ptr but2;
+button_ptr but3;
 
 const char msj_inicial[] = "Inicio de semaforo\r\n";
 const char msj_normal[] = "Modo Normal\r\n";
@@ -63,11 +59,7 @@ bool_t semaphoreInit(semaphore_t * pSemaphore) {
 
 	//key_init();
 
-	delayInit(&delay_red, TIME_ON_RED);
-	delayInit(&delay_yellow, TIME_ON_YELLOW);
-	delayInit(&delay_green, TIME_ON_GREEN);
-	delayInit(&delay_offline, TIME_OFFLINE);
-	delayInit(&delay_alarm, TIME_ALARM);
+
 
 	semaphore_init(pSemaphore);
 
@@ -92,7 +84,7 @@ static void semaphore_init(semaphore_t * sem){
 	//TODO: inicializacion de estructura semaforo
 	sem->mode = INITIAL_DEFAULT_MODE;
 	sem->state = INITIAL_DEFAULT_STATE;
-	sem->delay = delay_yellow;
+	delayInit(&sem->delay, TIME_ON_YELLOW);
 }
 
 bool_t semaphore_control(semaphore_t * pSemaphore) {
@@ -106,18 +98,19 @@ bool_t semaphore_control(semaphore_t * pSemaphore) {
 	key_mef_debounce_generic(&but2);
 	key_mef_debounce_generic(&but3);
 
-	if (key_released(&but1)) {
+	if (key_released(&but1) && key_time_pressed(&but1) > 3000) {//vuelve al modo normal solo si el boton presionado esta mas de 3 seg
 		semaphore_init(pSemaphore);
 		semaphore_off();
 		uartWriteString(UART_USB, msj_normal);
+
 	} else if (key_released(&but2)) {
 		pSemaphore->mode = OFFLINE;
-		pSemaphore->delay = delay_offline;
+		delayInit(&pSemaphore->delay, TIME_OFFLINE);
 		semaphore_off();
 		uartWriteString(UART_USB, msj_offline);
 	} else if (key_released(&but3)) {
 		pSemaphore->mode = ALARM;
-		pSemaphore->delay = delay_alarm;
+		delayInit(&pSemaphore->delay, TIME_ALARM);
 		semaphore_off();
 		uartWriteString(UART_USB, msj_alarma);
 	}
@@ -159,7 +152,7 @@ static void semaphore_normal(semaphore_t * sem) {
 		turnOff(LED_GREEN_S);
 		if (delayRead(&sem->delay)) {
 			sem->state = YELLOW_S;
-			sem->delay = delay_yellow;
+			delayInit(&sem->delay, TIME_ON_YELLOW);
 		}
 		break;
 	case YELLOW_S:
@@ -168,7 +161,7 @@ static void semaphore_normal(semaphore_t * sem) {
 		turnOff(LED_GREEN_S);
 		if (delayRead(&sem->delay)) {
 			sem->state = GREEN_S;
-			sem->delay = delay_green;
+			delayInit(&sem->delay, TIME_ON_GREEN);
 		}
 		break;
 	case GREEN_S:
@@ -177,7 +170,7 @@ static void semaphore_normal(semaphore_t * sem) {
 		turnOn(LED_GREEN_S);
 		if (delayRead(&sem->delay)) {
 			sem->state = RED_S;
-			sem->delay = delay_red;
+			delayInit(&sem->delay, TIME_ON_RED);
 		}
 		break;
 	default:

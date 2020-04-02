@@ -15,7 +15,7 @@
 
 /*=====[Macros de definicion de constantes privadas]=========================*/
 
-#define SW_INICIAL		UP
+
 
 /*=====[Macros estilo funcion privadas]======================================*/
 
@@ -53,17 +53,17 @@
 
 /*=====[Implementaciones de funciones publicas]==============================*/
 
-void keyInit(buttom_ptr * button, gpioMap_t tecla){
-	button->sw_state = UP;
+void keyInit(button_ptr * button, gpioMap_t tecla){
+	button->sw_state = SW_ESTADO_INICIAL;
 	button->sw_name = tecla;
 	button->sw_pressed = FALSE;
 	button->sw_released = FALSE;
-	button->sw_cont	= 0;
+	button->sw_tick_cont	= 0;
 	button->sw_time_pressed = 0;
 }
 
 
-void key_mef_debounce_generic(buttom_ptr * button) {
+void key_mef_debounce_generic(button_ptr * button) {
 
 		switch (button->sw_state) {
 		case UP:
@@ -72,7 +72,9 @@ void key_mef_debounce_generic(buttom_ptr * button) {
 			if (!gpioRead(button->sw_name)) {
 				button->sw_state = FALLING;
 				button->sw_time_pressed = 0;
-				delayInit(&button->sw_delay, DELAY_40);
+				//tickInit( 1 );		//setea base de tiempo a 1 msg// Adentro de configInit del main llama a tickInit(1);
+				tickWrite(0);		//pone a celo la base de tiempo para contar cuanot tiempo esta presionado, en configinit del main esta
+				delayInit(&button->sw_delay, DELAY_ANTIREBOTE);
 			}
 
 			break;
@@ -87,16 +89,17 @@ void key_mef_debounce_generic(buttom_ptr * button) {
 			}
 			break;
 		case DOWN:
-			if (!gpioRead(button->sw_name)) {
+ 			if (gpioRead(button->sw_name)) {
 				button->sw_state = RISSING;
-				delayInit(&button->sw_delay, DELAY_40);
+				delayInit(&button->sw_delay, DELAY_ANTIREBOTE);
 			}
 
 			break;
 		case RISSING:
 			if (delayRead(&button->sw_delay)) {
-				if (!gpioRead(button->sw_name)) {
+				if (gpioRead(button->sw_name)) {
 					button->sw_state = UP;
+					button->sw_time_pressed = tickRead();
 					button->sw_released = TRUE;
 				}
 				else
@@ -111,14 +114,18 @@ void key_mef_debounce_generic(buttom_ptr * button) {
 
 }
 
-bool_t key_released(buttom_ptr * button){
+bool_t key_released(button_ptr * button){
 
 	return button->sw_released;
 }
 
-bool_t key_pressed(buttom_ptr * button){
+bool_t key_pressed(button_ptr * button){
 
 	return button->sw_pressed;
+}
+
+tick_t key_time_pressed(button_ptr * button){
+	return button->sw_time_pressed;
 }
 
 /*=====[Implementaciones de funciones de interrupcion publicas]==============*/

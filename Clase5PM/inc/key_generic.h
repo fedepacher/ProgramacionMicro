@@ -42,16 +42,17 @@ typedef enum {
 
 // Tipo de datos estructua, union o campo de bits
 typedef struct {
-	gpioMap_t	sw_name;	 /* nombre de la tecla */
-	button_state  sw_state; /* estado de la tecla   */
-	delay_t 	sw_delay;	/* delay de la tecla presionada para evitar el anti-rebote*/
-	tick_t		sw_tick_cont;	/*cuenta la cantidad de veces que fue pulsada */
-	INT_16		sw_time_pressed;	/*tiempo de pulsado*/
-	bool_t 		sw_pressed;			/*indica si fue presionado*/
-	bool_t		sw_released;		/*indica si fue soltado*/
+	gpioMap_t		sw_name;	 /* nombre de la tecla */
+	button_state  	sw_state; /* estado de la tecla   */
+	delay_t 		sw_delay;	/* delay de la tecla presionada para evitar el anti-rebote*/
+	tick_t			sw_tick_cont;	/*cuenta la cantidad de veces que fue pulsada */
+	INT_16			sw_time_pressed;	/*tiempo de pulsado*/
+	bool_t 			sw_pressed;			/*indica si fue presionado*/
+	bool_t			sw_released;		/*indica si fue soltado*/
 } button_ptr;
 
 /*=====[Prototipos de funciones publicas]====================================*/
+
 /**
  * @brief	Rutina que inicializa los pulsadores
  * @param[in]	button		pasa un puntero a la estructura de borones

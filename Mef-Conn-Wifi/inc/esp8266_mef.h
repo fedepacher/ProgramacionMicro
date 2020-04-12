@@ -25,6 +25,8 @@ typedef enum{
 		DEINIT,
 }esp_state;
 
-ESP8266_StatusTypeDef esp8266_mef_running(esp_state state);
+void esp8266_broker_setup(ESP8266_ConnectionInfoTypeDef* connection_info);
+
+ESP8266_StatusTypeDef esp8266_mef_running(ESP8266_ConnectionInfoTypeDef* connection_info, esp_state state);
 
 #endif /* FEDE_MEF_CONN_WIFI_INC_ESP8266_MEF_H_ */

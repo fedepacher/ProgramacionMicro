@@ -130,7 +130,7 @@ typedef struct
   ESP8266_ConnectionModeTypeDef    connectionType;
   ESP8266_ConnectionPolicyTypeDef  connectionMode;  /* For UDP connections only */
   uint8_t                          connectionID;
-  uint8_t*                         ipAddress;
+  uint8_t*     	                   ipAddress;
   uint32_t                         port;
   uint32_t                         localPort;       /* for UDP connection only */
   ESP8266_Boolean                  isServer;  

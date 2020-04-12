@@ -212,7 +212,7 @@ ESP8266_StatusTypeDef ESP8266_GetIPAddress(ESP8266_ModeTypeDef Mode,
 	char *Token, *temp;
 
 	/* Initialize the IP address and command fields */
-	strcpy((char *) IpAddress, "0.0.0.0");
+	  strcpy((char *) IpAddress, "0.0.0.0");
 	memset(AtCmd, '\0', MAX_AT_CMD_SIZE);
 
 	/* Construct the CIFSR command */
@@ -238,7 +238,7 @@ ESP8266_StatusTypeDef ESP8266_GetIPAddress(ESP8266_ModeTypeDef Mode,
 		strcpy((char *) IpAddress, Token);
 	}
 
-	return Ret;
+   	return Ret;
 }
 
 /**

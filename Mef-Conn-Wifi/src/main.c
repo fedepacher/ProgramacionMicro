@@ -46,7 +46,7 @@ static void resetLEDS(void){
 	turnOff(LED3);
 }
 // FUNCION PRINCIPAL, PUNTO DE ENTRADA AL PROGRAMA LUEGO DE ENCENDIDO O RESET.
-    int main(void) {
+int main(void) {
 	// ---------- CONFIGURACIONES ------------------------------
 
 	// Inicializar y configurar la plataforma
@@ -60,7 +60,9 @@ static void resetLEDS(void){
 	ESP8266_StatusTypeDef Status;
 	bool_t flag_modo = TRUE;
 	uint8_t dato  = 0;
-	esp_state esp_state = 0;
+	esp_state esp_state = INIT;
+	ESP8266_ConnectionInfoTypeDef connection_info;
+
 
 	uartConfig(UART_USB, BAUD_RATE);
 	uartConfig(UART_232, BAUD_RATE);
@@ -71,6 +73,8 @@ static void resetLEDS(void){
 	keyInit(&but4, TEC4);
 
 	delayInit(&delay_led, 500);
+
+	esp8266_broker_setup(&connection_info);
 
 	// ---------- REPETIR POR SIEMPRE --------------------------
 	while ( TRUE) {
@@ -88,6 +92,8 @@ static void resetLEDS(void){
 		if (flag_modo) {//modo para ver si responde el at
 
 			if (key_released(&but2)) {
+				esp_state = INIT;
+				resetLEDS();
 				delay(250);
 				uartWriteString(UART_USB, "> Test AT: AT\r\n");
 				uartWriteString(UART_232, "AT\r\n");
@@ -110,7 +116,7 @@ static void resetLEDS(void){
 			}
 		} else {//modo inicializacion esp
 			if (key_released(&but2)) {
-				Status = esp8266_mef_running(esp_state);
+   				Status = esp8266_mef_running(&connection_info, esp_state);
 				if (Status != ESP8266_OK) {
 					resetLEDS();
 					turnOn(LEDR);

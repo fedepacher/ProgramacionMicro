@@ -85,6 +85,15 @@ bool_t key_released(button_ptr * button);
  * @return	true	si el pulsador fue liberado
  * 			false	si el pulsador no fue pulsado
  */
+bool_t key_pressed(button_ptr * button);
+
+/**
+ * @brief	Rutina que indica el tiempo que una tecla fue presionada
+ * @param[in]	button		pasa un puntero a la estructura de borones
+ *
+ * @return	tick_t	tiempo que transcurre en liberar la tecla
+ *
+ */
 tick_t key_time_pressed(button_ptr * button);
 /*=====[Prototipos de funciones publicas de interrupcion]====================*/
 

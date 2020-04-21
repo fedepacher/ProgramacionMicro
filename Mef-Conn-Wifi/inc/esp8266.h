@@ -1,48 +1,9 @@
-/**
-  ******************************************************************************
-  * @file    Applications\WiFi\ESP8266_IAP_Client\Inc\esp8266.h
-  * @author  MCD Application Team
-  * @brief   This file contains all the functions prototypes for the 
-  *          esp8266 WiFi driver.   
-  ******************************************************************************
-  * @attention
-  *
-  * <h2><center>&copy; Copyright (c) 2017 STMicroelectronics International N.V.
-  * All rights reserved.</center></h2>
-  *
-  * Redistribution and use in source and binary forms, with or without 
-  * modification, are permitted, provided that the following conditions are met:
-  *
-  * 1. Redistribution of source code must retain the above copyright notice, 
-  *    this list of conditions and the following disclaimer.
-  * 2. Redistributions in binary form must reproduce the above copyright notice,
-  *    this list of conditions and the following disclaimer in the documentation
-  *    and/or other materials provided with the distribution.
-  * 3. Neither the name of STMicroelectronics nor the names of other 
-  *    contributors to this software may be used to endorse or promote products 
-  *    derived from this software without specific written permission.
-  * 4. This software, including modifications and/or derivative works of this 
-  *    software, must execute solely and exclusively on microcontroller or
-  *    microprocessor devices manufactured by or for STMicroelectronics.
-  * 5. Redistribution and use of this software other than as permitted under 
-  *    this license is void and will automatically terminate your rights under 
-  *    this license. 
-  *
-  * THIS SOFTWARE IS PROVIDED BY STMICROELECTRONICS AND CONTRIBUTORS "AS IS" 
-  * AND ANY EXPRESS, IMPLIED OR STATUTORY WARRANTIES, INCLUDING, BUT NOT 
-  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
-  * PARTICULAR PURPOSE AND NON-INFRINGEMENT OF THIRD PARTY INTELLECTUAL PROPERTY
-  * RIGHTS ARE DISCLAIMED TO THE FULLEST EXTENT PERMITTED BY LAW. IN NO EVENT 
-  * SHALL STMICROELECTRONICS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
-  * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-  * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, 
-  * OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
-  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
-  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
-  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-  *
-  ******************************************************************************
-  */ 
+/*
+ * esp8266.c
+ *
+ *  Created on: Apr 10, 2020
+ *      Author: fedepacher
+ */
 
 #ifndef __ESP8266_H
 #define __ESP8266_H
@@ -147,17 +108,88 @@ typedef struct
 /* Exported constants --------------------------------------------------------*/
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
+
+/**
+ * @brief   Initialize the esp8266 module.
+ *          IT intitalize the IO to communicate between the MCU and the module, then
+ *          test that the modules is working using some basic AT commands.
+ *          in case of success the string "OK" is returned inside otherwise
+ *	         it is an error.
+ * @param   None
+ * @retval  ESP8266_OK on sucess, ESP8266_ERROR otherwise.
+ */
 ESP8266_StatusTypeDef ESP8266_Init(void);
+
+/**
+ * @brief   Deinitialize the ESP8266 module.
+ * @details Restarts the module  and stop the IO. AT command can't be executed
+ unless the module is reinitialized.
+ * @param   None
+ * @retval  ESP8266_OK on sucess, ESP8266_ERROR otherwise.
+ */
 ESP8266_StatusTypeDef ESP8266_DeInit(void);
+
+/**
+ * @brief  Restarts the esp8266 module.
+ * @param  None
+ * @retval ESP8266_OK on sucess, ESP8266_ERROR otherwise.
+ */
 ESP8266_StatusTypeDef ESP8266_Restart(void);
-  
+
+/**
+ * @brief  Quit an Access point if any.
+ * @param  None
+ * @retval returns ESP8266_AT_COMMAND_OK on success and ESP8266_AT_COMMAND_ERROR otherwise.
+ */
 ESP8266_StatusTypeDef ESP8266_QuitAccessPoint(void);
+
+/**
+ * @brief  Join an Access point.
+ * @param  Ssid: the access point id.
+ * @param  Password the Access point password.
+ * @retval Returns ESP8266_AT_COMMAND_OK on success and ESP8266_AT_COMMAND_ERROR otherwise.
+ */
 ESP8266_StatusTypeDef ESP8266_JoinAccessPoint(uint8_t* ssid, uint8_t* password);
+
+/**
+ * @brief  Get the IP address for the esp8266 in Station mode.
+ * @param  Mode: a ESP8266_ModeTypeDef to choose the Station or AccessPoint mode.
+ only the Station Mode is supported.
+ * @param  IpAddress buffer to contain the IP address.
+ * @retval Returns ESP8266_OK on success and ESP8266_ERROR otherwise
+ */
 ESP8266_StatusTypeDef ESP8266_GetIPAddress(ESP8266_ModeTypeDef mode, uint8_t* ip_address);
+
+/**
+ * @brief  Establish a network connection.
+ * @param  Connection_info a pointer to a ESP8266_ConnectionInfoTypeDef struct containing the connection info.
+ * @retval Returns ESP8266_AT_COMMAND_OK on success and ESP8266_AT_COMMAND_ERROR otherwise.
+ */
 ESP8266_StatusTypeDef ESP8266_EstablishConnection(const ESP8266_ConnectionInfoTypeDef* connection_info);
+
+/**
+ * @brief   Close a network connection.
+ * @details Use the ALL_CONNECTION_ID to close all connections.
+ * @param   Channel_id the channel ID of the connection to close.
+ * @retval  Returns ESP8266_AT_COMMAND_OK on success and ESP8266_AT_COMMAND_ERROR otherwise.
+ */
 ESP8266_StatusTypeDef ESP8266_CloseConnection(const uint8_t channel_id);
 
+/**
+ * @brief  Send data over the wifi connection.
+ * @param  Buffer: the buffer to send
+ * @param  Length: the Buffer's data size.
+ * @retval Returns ESP8266_OK on success and ESP8266_ERROR otherwise.
+ */
 ESP8266_StatusTypeDef ESP8266_SendData(uint8_t* pData, uint32_t Length);
+
+/**
+ * @brief  receive data over the wifi connection.
+ * @param  pData the buffer to fill will the received data.
+ * @param  Length the maximum data size to receive.
+ * @param RetLength the actual data received.
+ * @retval returns ESP8266_OK on success and ESP8266_ERROR otherwise.
+ */
 ESP8266_StatusTypeDef ESP8266_ReceiveData(uint8_t* pData, uint32_t Length, uint32_t* retLength);
 
 #ifdef __cplusplus

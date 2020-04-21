@@ -16,17 +16,29 @@ typedef enum{
 		JOINACCESSPOINT,	//	coresponde al envio de AT+CWJAP=\"Ssid\",\"Password\"%c%c"
 		GETIPADDRESS,
 		ESTABLISHCONNECTION,
-		SENDDATA,
+		CONNECT_BROKER,
+		PUBLISH_BROKER,
 		CLOSECONNECTION,
 		RECEIVEDATA,
 		QUITACCESSPOINT,
 		DESCONECT_WIFI,
 		RESTART,
 		DEINIT,
+		STANDBY,
 }esp_state;
 
+/**
+ * @brief  setup broker connection.
+ * @param  connection_info: connection information.
+ */
 void esp8266_broker_setup(ESP8266_ConnectionInfoTypeDef* connection_info);
 
-ESP8266_StatusTypeDef esp8266_mef_running(ESP8266_ConnectionInfoTypeDef* connection_info, esp_state state);
+/**
+ * @brief  FSM to connect to wifi network an to the broker
+ * @param  connection_info: connection information.
+ * @param  state:			stato for the FSM
+ * @retval ESP8266_StatusTypeDef: if the connection was ok or not.
+ */
+ESP8266_StatusTypeDef esp8266_mef_running(ESP8266_ConnectionInfoTypeDef* connection_info, esp_state* state);
 
 #endif /* FEDE_MEF_CONN_WIFI_INC_ESP8266_MEF_H_ */

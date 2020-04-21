@@ -114,7 +114,7 @@ void key_mef_debounce_generic(button_ptr * button) {
 
 }
 
-bool_t key_released(button_ptr * button){
+bool_t  (button_ptr * button){
 
 	return button->sw_released;
 }

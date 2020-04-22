@@ -104,7 +104,7 @@ int32_t ESP8266_IO_Receive(uint8_t* Buffer, uint32_t Length) {
 			/* If it gets a byte from UART_232 It keeps it in dato var. */
 			if (HAL_uart_f_ReadByte(UART_232, &dato)) {
 				/* Write the byte in the consola */
-				uartWriteByte(UART_USB, dato);
+				HAL_uart_f_WriteByte(UART_USB, dato);
 				WiFiRxBuffer.head = dato;
 
 				if (WiFiRxBuffer.head != WiFiRxBuffer.tail) {

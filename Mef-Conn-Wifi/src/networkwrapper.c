@@ -61,30 +61,30 @@ void network_close(void){ }
 	return 0;
 }*/
 
-int network_send(uint8_t* Buffer, uint32_t Length){
-
+ESP8266_StatusTypeDef network_send(uint8_t* Buffer, uint32_t Length){
+	ESP8266_StatusTypeDef Status = ESP8266_OK;
 		// Send the data.
-	ESP8266_SendData(Buffer, Length); //ESP82_Send(address, bytes);
+	Status = ESP8266_SendData(Buffer, Length); //ESP82_Send(address, bytes);
 
 
 	// In progress .
-	return Length;
+	return Length;//Status;
 }
 
-int network_recv(unsigned char *address, unsigned int maxbytes){
+ESP8266_StatusTypeDef network_recv(unsigned char *address, unsigned int maxbytes){
 	static char receiveBuffer[128];
 	static int receiveBufferBack = 0;
 	static int receiveBufferFront = 0;
 	int actualLength;
 
 	// State Machine.
-	/*ESP82_Result_t espResult;
-	switch(network_recv_state) {
+	ESP8266_StatusTypeDef Status;
+	/*switch(network_recv_state) {
 	case 0:
-		espResult = ESP82_Receive(receiveBuffer, 128);
-		if(espResult > 0){
+		Status = ESP8266_Receive(receiveBuffer, 128);
+		if(Status > 0){
 			// Set the buffer pointers.
-			receiveBufferBack = espResult;
+			receiveBufferBack = Status;
 			receiveBufferFront = 0;
 
 			// To the next state.
@@ -119,14 +119,14 @@ int network_recv(unsigned char *address, unsigned int maxbytes){
 	}
 
 	// Fall-back on error.
-	if(espResult == ESP82_ERROR){
+	if(Status == ESP8266_ERROR){
 		// Reset the state machine.
 		network_recv_state = 0;
 		
 		// Error.
-		return -1;
+		//return -1;
 	}*/
 
 	// In progress.
-	return 0;
+	return Status;
 }

@@ -96,7 +96,7 @@ static void modo_reporte_modo_func(bool_t flag_act, bool_t* flag_ant) {
 }
 
 // FUNCION PRINCIPAL, PUNTO DE ENTRADA AL PROGRAMA LUEGO DE ENCENDIDO O RESET.
-int main(void) {
+  int main(void) {
 	// ---------- CONFIGURACIONES ------------------------------
 
 	// Inicializar y configurar la plataforma

@@ -17,8 +17,8 @@
 #include "esp8266.h"
 
 typedef struct {
-	int (*send)(uint8_t* Buffer, uint32_t Length); 	///< pointer to function to send 'bytes' bytes, returns the actual number of bytes sent
-	int (*recv)(unsigned char *address, unsigned int maxbytes); 	///< pointer to function to receive upto 'maxbytes' bytes, returns the actual number of bytes copied
+	ESP8266_StatusTypeDef  (*send)(uint8_t* Buffer, uint32_t Length); 	///< pointer to function to send 'bytes' bytes, returns the actual number of bytes sent
+	ESP8266_StatusTypeDef (*recv)(unsigned char *address, unsigned int maxbytes); 	///< pointer to function to receive upto 'maxbytes' bytes, returns the actual number of bytes copied
 } transport_iofunctions_t;
 
 #define TRANSPORT_DONE	1

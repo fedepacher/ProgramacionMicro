@@ -15,10 +15,10 @@
  *    Sergio R. Caprile - non-blocking packet read functions for stream transport
  *******************************************************************************/
 
-#include "../../PublishMQTT/inc/MQTTPacket.h"
+#include "MQTTPacket.h"
 
 #include <string.h>
-#include "../../PublishMQTT/inc/StackTrace.h"
+#include "StackTrace.h"
 
 /**
  * Encodes the message length according to the MQTT algorithm

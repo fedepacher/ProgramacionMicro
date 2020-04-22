@@ -18,7 +18,7 @@
 /** By the way, this is a nice bare bones example, easier to expand to whatever non-OS
 media you might have */
 
-#include "../../PublishMQTT/inc/transport.h"
+#include "transport.h"
 
 #include <stdint.h>
 #include <stdio.h>

@@ -19,10 +19,10 @@
 #if defined(MQTTV5)
 #include "V5/MQTTV5Packet.h"
 #else
-#include "../../PublishMQTT/inc/MQTTPacket.h"
+#include "MQTTPacket.h"
 #endif
 
-#include "../../PublishMQTT/inc/StackTrace.h"
+#include "StackTrace.h"
 
 #include <string.h>
 

@@ -6,12 +6,12 @@
  */
 
 /* Includes ------------------------------------------------------------------*/
-#include "../../PublishMQTT/inc/esp8266.h"
+#include "esp8266.h"
 
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "../../PublishMQTT/inc/esp8266_io.h"
+#include "esp8266_io.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/

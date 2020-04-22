@@ -6,7 +6,7 @@
  */
 
 // Include
-#include "../../PublishMQTT/inc/mef_mqtt.h"
+#include "mef_mqtt.h"
 
 #include <stdint.h>
 #include <stdio.h>
@@ -14,11 +14,11 @@
 #include <string.h>
 #include <stdbool.h>
 
-#include "../../PublishMQTT/inc/key_generic.h"
-#include "../../PublishMQTT/inc/led.h"
-#include "../../PublishMQTT/inc/MQTTPacket.h"
-#include "../../PublishMQTT/inc/networkwrapper.h"
-#include "../../PublishMQTT/inc/transport.h"
+#include "key_generic.h"
+#include "led.h"
+#include "MQTTPacket.h"
+#include "networkwrapper.h"
+#include "transport.h"
 #include "sapi.h"
 
 #define CONNECTION_KEEPALIVE_S 60UL

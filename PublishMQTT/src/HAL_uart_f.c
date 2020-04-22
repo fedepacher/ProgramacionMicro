@@ -7,7 +7,7 @@
 
 /*=====[Inclusion of own header]=============================================*/
 
-#include "../../PublishMQTT/inc/HAL_uart_f.h"
+#include "HAL_uart_f.h"
 
 
 /*=====[Inclusions of private function dependencies]=========================*/

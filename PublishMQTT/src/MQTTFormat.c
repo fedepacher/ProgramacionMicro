@@ -15,8 +15,8 @@
  *******************************************************************************/
 
 #include <string.h>
-#include "../../PublishMQTT/inc/MQTTPacket.h"
-#include "../../PublishMQTT/inc/StackTrace.h"
+#include "MQTTPacket.h"
+#include "StackTrace.h"
 
 
 const char* MQTTPacket_names[] =

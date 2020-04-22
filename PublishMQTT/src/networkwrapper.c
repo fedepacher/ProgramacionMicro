@@ -27,10 +27,10 @@
  */
 
 // Includes.
-#include "../../PublishMQTT/inc/networkwrapper.h"
+#include "networkwrapper.h"
 
 #include <string.h>
-#include "../../PublishMQTT/inc/esp8266.h"
+#include "esp8266.h"
 
 // Variables.
 //static char network_host[32] = "iot.eclipse.org";///< HostName i.e. "test.mosquitto.org"

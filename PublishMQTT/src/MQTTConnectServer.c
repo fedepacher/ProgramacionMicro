@@ -15,11 +15,11 @@
  *    Ian Craggs - add MQTT v5 support
  *******************************************************************************/
 
-#include "../../PublishMQTT/inc/StackTrace.h"
+#include "StackTrace.h"
 #if defined(MQTTV5)
 #include "V5/MQTTV5Packet.h"
 #else
-#include "../../PublishMQTT/inc/MQTTPacket.h"
+#include "MQTTPacket.h"
 #endif
 #include <string.h>
 

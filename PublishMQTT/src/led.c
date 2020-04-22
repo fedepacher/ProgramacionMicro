@@ -4,7 +4,7 @@
  *  Created on: Mar 18, 2020
  *      Author: fedepacher
  */
-#include "../../PublishMQTT/inc/led.h"
+#include "led.h"
 
 #include "sapi.h"
 

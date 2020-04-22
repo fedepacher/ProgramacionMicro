@@ -6,10 +6,10 @@
  */
 
 /* Includes ------------------------------------------------------------------*/
-#include "../../PublishMQTT/inc/esp8266_io.h"
+#include "esp8266_io.h"
 
-#include "../../PublishMQTT/inc/HAL_uart_f.h"
-#include "../../PublishMQTT/inc/main.h"
+#include "HAL_uart_f.h"
+#include "main.h"
 #include "sapi.h"
 
 /* Private define ------------------------------------------------------------*/

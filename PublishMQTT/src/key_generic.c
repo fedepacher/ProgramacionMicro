@@ -7,7 +7,7 @@
 
 /*=====[Inclusion de su propia cabecera]=====================================*/
 
-#include "../../PublishMQTT/inc/key_generic.h"
+#include "key_generic.h"
 
 /*=====[Inclusiones de dependencias de funciones privadas]===================*/
 

@@ -121,14 +121,13 @@ static void modo_reporte_modo_func(bool_t flag_act, bool_t* flag_ant) {
 	NVIC_EnableIRQ( PININT_NVIC_NAME);
 	//***********************************************************************************
 
-	button_ptr but1;
-	button_ptr but2;
+	button_ptr but1;				//def btn1
+	button_ptr but2;				//def btn2
 
-	delay_t delay_led;
-	ESP8266_StatusTypeDef Status;
-	uint8_t dato = 0;
-	ESP8266_ConnectionInfoTypeDef connection_info;
-	//esp_state esp_state;
+	delay_t delay_led;				//led delay
+	ESP8266_StatusTypeDef Status;	//ESP status
+	uint8_t dato = 0;				//uart data receive
+	ESP8266_ConnectionInfoTypeDef connection_info;	//structure of broker connection
 
 	bool_t estado_btn_presianado_ant;
 	bool_t estado_btn_liberado_ant;

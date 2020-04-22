@@ -8,7 +8,7 @@
 #ifndef FEDE_PUBLISHMQTT_INC_ESP8266_MEF_H_
 #define FEDE_PUBLISHMQTT_INC_ESP8266_MEF_H_
 
-#include "../../PublishMQTT/inc/esp8266.h"
+#include "esp8266.h"
 
 
 typedef enum{

@@ -4,10 +4,10 @@
  *  Created on: Apr 10, 2020
  *      Author: fedepacher
  */
-#include "../../PublishMQTT/inc/esp8266_mef.h"
+#include "esp8266_mef.h"
 
-#include "../../PublishMQTT/inc/mef_mqtt.h"
-#include "../../PublishMQTT/inc/wifi_credentials.h"
+#include "mef_mqtt.h"
+#include "wifi_credentials.h"
 
 static uint8_t IpAddress;
 
@@ -70,15 +70,11 @@ ESP8266_StatusTypeDef esp8266_mef_running(
 		break;
 	case CLOSECONNECTION:
 		Status = ESP8266_CloseConnection(0);
-		//if (Status == ESP8266_OK) {
 		*state = RESTART;
-		/*} else {
-		 *state = INIT;
-		 }*/
 		break;
 
 	case RESTART:
-
+		Status = ESP8266_Restart();
 		*state = STANDBY;
 		break;
 

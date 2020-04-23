@@ -35,44 +35,51 @@
 // Variables.
 //static char network_host[32] = "iot.eclipse.org";///< HostName i.e. "test.mosquitto.org"
 //static unsigned short int network_port = 1883;///< Remote port number.
-static unsigned short int network_keepalive = 20;///< Default keepalive time in seconds.
-static char network_ssl = ESP8266_FALSE;///< SSL is disabled by default.
-static int network_send_state = 0;///< Internal state of send.
-static int network_recv_state = 0;///< Internal state of recv.
+static unsigned short int network_keepalive = 20; ///< Default keepalive time in seconds.
+static char network_ssl = ESP8266_FALSE; ///< SSL is disabled by default.
+static int network_send_state = 0; ///< Internal state of send.
+static int network_recv_state = 0; ///< Internal state of recv.
 
 // Global time provider.
-extern long unsigned int network_gettime_ms(void);///< Returns 32bit ms time value.
+extern long unsigned int network_gettime_ms(void); ///< Returns 32bit ms time value.
 
-void network_init(void){ }
-
-void network_close(void){ }
-
-/*int network_connect(const char * host, const unsigned short int port, const unsigned short int keepalive, const char ssl){
-	// Get connection info.
-	strcpy(network_host, host);
-	network_port = port;
-	network_keepalive = keepalive;
-	network_ssl = ssl;
-
-	// Reset the internal states.
-	network_send_state = 0;
-	network_recv_state = 0;
-
-	// Success.
-	return 0;
-}*/
-
-ESP8266_StatusTypeDef network_send(uint8_t* Buffer, uint32_t Length){
-	ESP8266_StatusTypeDef Status = ESP8266_OK;
-		// Send the data.
-	Status = ESP8266_SendData(Buffer, Length); //ESP82_Send(address, bytes);
-
-
-	// In progress .
-	return Length;//Status;
+void network_init(void) {
 }
 
-ESP8266_StatusTypeDef network_recv(unsigned char *address, unsigned int maxbytes){
+void network_close(void) {
+}
+
+/*int network_connect(const char * host, const unsigned short int port, const unsigned short int keepalive, const char ssl){
+ // Get connection info.
+ strcpy(network_host, host);
+ network_port = port;
+ network_keepalive = keepalive;
+ network_ssl = ssl;
+
+ // Reset the internal states.
+ network_send_state = 0;
+ network_recv_state = 0;
+
+ // Success.
+ return 0;
+ }*/
+
+int network_send(uint8_t* Buffer, uint32_t Length) {
+	ESP8266_StatusTypeDef Status = ESP8266_OK;
+	// Send the data.
+	Status = ESP8266_SendData(Buffer, Length); //ESP82_Send(address, bytes);
+
+	// In progress .
+	if (Status == ESP8266_OK)
+		return Length;
+	if (Status == ESP8266_ERROR)
+		return -1;
+	//In progress
+	return 0;
+}
+
+int network_recv(unsigned char *address,
+		unsigned int maxbytes) {
 	static char receiveBuffer[128];
 	static int receiveBufferBack = 0;
 	static int receiveBufferFront = 0;
@@ -81,52 +88,52 @@ ESP8266_StatusTypeDef network_recv(unsigned char *address, unsigned int maxbytes
 	// State Machine.
 	ESP8266_StatusTypeDef Status;
 	/*switch(network_recv_state) {
-	case 0:
-		Status = ESP8266_Receive(receiveBuffer, 128);
-		if(Status > 0){
-			// Set the buffer pointers.
-			receiveBufferBack = Status;
-			receiveBufferFront = 0;
+	 case 0:
+	 Status = ESP8266_Receive(receiveBuffer, 128);
+	 if(Status > 0){
+	 // Set the buffer pointers.
+	 receiveBufferBack = Status;
+	 receiveBufferFront = 0;
 
-			// To the next state.
-			network_recv_state++;
-		}
-		break;
-	case 1:
-		// Extract to the out buffer.
-		if(receiveBufferFront < receiveBufferBack) {
-			// Get actual length.
-			actualLength = (receiveBufferBack - receiveBufferFront);
-			if(actualLength > maxbytes){
-				actualLength = maxbytes;
-			}
+	 // To the next state.
+	 network_recv_state++;
+	 }
+	 break;
+	 case 1:
+	 // Extract to the out buffer.
+	 if(receiveBufferFront < receiveBufferBack) {
+	 // Get actual length.
+	 actualLength = (receiveBufferBack - receiveBufferFront);
+	 if(actualLength > maxbytes){
+	 actualLength = maxbytes;
+	 }
 
-			// Extract the actual bytes.
-			memcpy(address, &receiveBuffer[receiveBufferFront], actualLength);
-			receiveBufferFront += actualLength;
+	 // Extract the actual bytes.
+	 memcpy(address, &receiveBuffer[receiveBufferFront], actualLength);
+	 receiveBufferFront += actualLength;
 
-			// Buffer is empty.
-			if(receiveBufferBack == receiveBufferFront) {
-				network_recv_state = 0;
-			}
+	 // Buffer is empty.
+	 if(receiveBufferBack == receiveBufferFront) {
+	 network_recv_state = 0;
+	 }
 
-			// Return the count.
-			return actualLength;
-		}
-		break;
-	default:
-		// Reset the state machine.
-		network_recv_state = 0;
-	}
+	 // Return the count.
+	 return actualLength;
+	 }
+	 break;
+	 default:
+	 // Reset the state machine.
+	 network_recv_state = 0;
+	 }
 
-	// Fall-back on error.
-	if(Status == ESP8266_ERROR){
-		// Reset the state machine.
-		network_recv_state = 0;
-		
-		// Error.
-		//return -1;
-	}*/
+	 // Fall-back on error.
+	 if(Status == ESP8266_ERROR){
+	 // Reset the state machine.
+	 network_recv_state = 0;
+
+	 // Error.
+	 //return -1;
+	 }*/
 
 	// In progress.
 	return Status;

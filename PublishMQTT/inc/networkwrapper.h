@@ -61,7 +61,7 @@ void network_close(void);
  * @param bytes Number of bytes to be sent.
  * @return Returns the number of actual data bytes sent or negative on error.
  */
-ESP8266_StatusTypeDef network_send(uint8_t* Buffer, uint32_t Length);
+int network_send(uint8_t* Buffer, uint32_t Length);
 
 /*
  * @brief NON-BLOCKING Receives data and mimics transparency.
@@ -69,6 +69,6 @@ ESP8266_StatusTypeDef network_send(uint8_t* Buffer, uint32_t Length);
  * @param maxbytes Number of maximum bytes to be received.
  * @return Returns the number of actual data bytes received or negative on error.
  */
-ESP8266_StatusTypeDef network_recv(unsigned char *address, unsigned int maxbytes);
+int network_recv(unsigned char *address, unsigned int maxbytes);
 
 #endif

@@ -1,0 +1,2 @@
+#define WIFI_AP_SSID "Fede"
+#define WIFI_AP_PASS "FEDEVALE2706"

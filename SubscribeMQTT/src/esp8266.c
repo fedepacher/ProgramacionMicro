@@ -324,7 +324,7 @@ static ESP8266_StatusTypeDef getData(uint8_t* Buffer, uint32_t Length,
 	ESP8266_Boolean newChunk = ESP8266_FALSE;
 
 	/* Reset the reception data length */
-	*RetLength = 0;	//ESTO LO COMENTE YO FEFO
+	*RetLength = 0;
 
 	/* Reset the reception buffer */
 	memset(RxBuffer, '\0', MAX_BUFFER_SIZE);

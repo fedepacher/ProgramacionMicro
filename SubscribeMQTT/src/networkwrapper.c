@@ -89,7 +89,7 @@ int network_recv(unsigned char *address, unsigned int maxbytes){
 	switch(network_recv_state) {
 	case 0:
 		Status = ESP8266_ReceiveData(receiveBuffer, sizeof(receiveBuffer), &RetLength);
-		if(RetLength > 0 && RetLength < sizeof(receiveBuffer)){
+		if(RetLength > 0){// && RetLength < sizeof(receiveBuffer)){
 			// Set the buffer pointers.
 			receiveBufferBack = RetLength;
 			receiveBufferFront = 0;
